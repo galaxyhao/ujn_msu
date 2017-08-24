@@ -1,0 +1,188 @@
+<include file = '.\Application\Msu\View\base.html'/>
+
+    <div id="page-wrapper">
+    <div class="container-fluid">
+     <div class="container-fluid"> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-success alert-dismissable fade in hidden" onclick="$(this).attr('class','alert alert-success alert-dismissable fade in hidden');">
+                            <button  type="button" class="close" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle" id="tip"></i>
+                        </div>
+                    </div>
+                </div>
+        <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        IP地址管理
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
+
+       <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>组织机构</th>
+                                    <th>负责人</th>
+                                    <th>联系方式</th>
+                                    <th>IP范围</th>
+                                    <th>说明</th>
+                                    <th>修改</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <volist name='list' id='list'>
+                                <tr>
+                                    <td><{$list.organization}></td>
+                                    <td><{$list.name}></td>
+                                    <td><{$list.numbers}></td>
+                                    <td><{$list.start}> ~ <{$list.finish}></td>
+                                    <td><{$list.note}></td>
+                                    <td>
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal<{$list.id}>">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                    IP范围
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modal<{$list.id}>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                   <span aria-hidden="true">&times;</span>
+                                                   <span class="sr-only">Close</span>
+                                                 </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    <{$list.organization}>
+                                                </h4>
+                                            </div>
+
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <form class="form-horizontal" role="form" action="__CONTROLLER__/range_update" method="post">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">起始IP</label>
+                                                        <div class="col-sm-5">
+                                                        <input class="form-control" type="text" name="start" value="<{$list.start}>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">终止IP</label>
+                                                        <div class="col-sm-5">
+                                                        <input class="form-control" type="text" name="finish" value="<{$list.finish}>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">备注</label>
+                                                        <div class="col-sm-8">
+                                                         <textarea name="note" class="form-control" rows="5" id="comment"></textarea>
+                                                         </div>
+                                                    </div>
+                                                    <!-- 设置一个隐藏域 -->
+                                                    <input type="hidden" name="id" value="<{$list.id}>">
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary fanwei" data-dismiss="modal">&nbsp;修改&nbsp;</button>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <a class="btn btn-primary btn-sm" href="__CONTROLLER__/org_display/org/<{$list.id}>">
+                                    <span class="glyphicon glyphicon-wrench">
+                                    </span>
+                                    IP分配
+                                    </a>
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#info<{$list.id}>">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                    配置信息
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="info<{$list.id}>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                   <span aria-hidden="true">&times;</span>
+                                                   <span class="sr-only">Close</span>
+                                                 </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    <{$list.organization}>
+                                                </h4>
+                                            </div>
+
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <form class="form-horizontal" role="form" action="__CONTROLLER__/save_info" method="post">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">子网掩码</label>
+                                                        <div class="col-sm-5">
+                                                        <input class="form-control" type="text" name="mask" value="<{$list.mask}>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label">网关</label>
+                                                        <div class="col-sm-5">
+                                                        <input class="form-control" type="text" name="gateway" value="<{$list.gateway}>">
+                                                        </div>
+                                                    </div>
+                                                    <!-- 设置一个隐藏域 -->
+                                                    <input type="hidden" name="id" value="<{$list.id}>">
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary peizhi" data-dismiss="modal">&nbsp;修改&nbsp;</button>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </td>
+                                </tr>
+                                </volist>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+                <nav>
+                <center>
+                <ul class="pagination"><{$show}></ul>
+                </center>
+                </nav>
+    </div>
+    <!-- /.container-fluid -->
+    </div>
+
+    </div>
+    <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="__PUBLIC__/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+    <script src="__PUBLIC__/js/myself.js"></script>
+    <script>
+        $(".fanwei").click(function(){
+            var select = $(this).parents('form');
+            submit(select,"__CONTROLLER__/range_update",'POST','添加成功！');
+        });
+        $(".peizhi").click(function(){
+            var select = $(this).parents('form');
+            submit(select,"__CONTROLLER__/save_info",'POST','添加成功！');
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<include file='.\Application\Msu\View\base.html' />
+<div id="page-wrapper">
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">添加维护</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="alert alert-success alert-dismissable fade in hidden" onclick="$(this).attr('class','alert alert-success alert-dismissable fade in hidden');">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <i class="fa fa-info-circle" id="tip"></i>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+          <a href="#bangong" data-toggle="tab">
+                  			添加办公网维护
+                  		</a>
+        </li>
+        <li><a href="#jiaogong" data-toggle="tab">添加教工宿舍维护</a></li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="bangong">
+          <div class="col-md-4 col-md-offset-4">
+            <h2>添加新维护(办公网)</h2>
+            <form class="form-horizontal" action="__URL__/weihu_write" method="post" id="form1">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">楼号</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="building">
+                              <volist name='office_b' id='vo'>
+                              <option value="<{$vo.id}>"><{$vo.name}></option>
+                              </volist>
+                            </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">房间号</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="room" placeholder="房间号">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="name" placeholder="姓名">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">电话</label>
+                <div class="col-sm-10">
+                  <input type="tel" class="form-control" name="numbers" placeholder="电话">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">故障说明</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" id="comment1" name="note"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">维护地点说明</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" id="comment2" name="location"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12 col-sm-offset-2">
+                  <button type="button" class="btn btn-success">提交</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="jiaogong">
+          <div class="col-md-4 col-md-offset-4">
+            <h2>添加新维护(教工宿舍)</h2>
+            <form class="form-horizontal" action="__URL__/weihu_write" method="post">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">楼号</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="building">
+                              <volist name='staff_b' id='vo'>
+                              <option value="<{$vo.id}>"><{$vo.name}></option>
+                              </volist>
+                            </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">单元号</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="unit">
+                              <option value="一单元">一单元</option>
+                              <option value="二单元">二单元</option>
+                              <option value="三单元">三单元</option>
+                              <option value="四单元">四单元</option>
+                              <option value="五单元">五单元</option>
+                              <option value="六单元">六单元</option>
+                              <option value="七单元">七单元</option>
+                            </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">房间号</label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="room">
+                              <option value="101">101</option>
+                              <option value="102">102</option>
+                              <option value="103">103</option>
+                              <option value="104">104</option>
+                              <option value="201">201</option>
+                              <option value="202">202</option>
+                              <option value="203">203</option>
+                              <option value="204">204</option>
+                              <option value="301">301</option>
+                              <option value="302">302</option>
+                              <option value="303">303</option>
+                              <option value="304">304</option>
+                              <option value="401">401</option>
+                              <option value="402">402</option>
+                              <option value="403">403</option>
+                              <option value="404">404</option>
+                              <option value="501">501</option>
+                              <option value="502">502</option>
+                              <option value="503">503</option>
+                              <option value="504">504</option>
+                              <option value="601">601</option>
+                              <option value="602">602</option>
+                              <option value="603">603</option>
+                              <option value="604">604</option>
+                              <option value="701">701</option>
+                              <option value="702">702</option>
+                              <option value="703">703</option>
+                              <option value="704">704</option>
+                              <option value="801">801</option>
+                              <option value="802">802</option>
+                              <option value="803">803</option>
+                              <option value="901">901</option>
+                              <option value="902">902</option>
+                              <option value="903">903</option>
+                              <option value="1001">1001</option>
+                              <option value="1002">1002</option>
+                              <option value="1003">1003</option>
+                              <option value="1101">1101</option>
+                              <option value="1102">1102</option>
+                              <option value="1103">1103</option>
+                              <option value="1201">1201</option>
+                              <option value="1202">1202</option>
+                              <option value="1203">1203</option>
+                              <option value="1301">1301</option>
+                              <option value="1302">1302</option>
+                              <option value="1303">1303</option>
+                            </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="name" placeholder="姓名">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">电话</label>
+                <div class="col-sm-10">
+                  <input type="tel" class="form-control" name="numbers" placeholder="电话">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">故障说明</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" id="comment1" name="note"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">维护地点说明</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" id="comment2" name="location"></textarea>
+                </div>
+              </div>
+              <input type="hidden" name="net_type" value="教工网">
+              <div class="form-group">
+                <div class="col-sm-12 col-sm-offset-2">
+                  <button type="button" class="btn btn-success">提交</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="__PUBLIC__/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+<script src="__PUBLIC__/js/myself.js"></script>
+
+<script>
+  $(function () {
+    $('.btn-success:first').click(function () {
+      submit('form:first', '__URL__/weihu_write', 'GET', '添加成功！');
+    });
+    $('.btn-success:last').click(function () {
+      submit('form:last', '__URL__/weihu_write', 'GET', '添加成功！');
+    });
+  });
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<include file = '.\Application\Msu\View\base.html'/>
+<div id="page-wrapper">
+<div class="container-fluid"> 
+    <div class="row">
+        <h1 class="page-header">校园网用户管理</h1>
+    </div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="container-fluid" style="margin-top: 50px">
+            <div style="margin-bottom: 10px" class="col-md-4 col-md-offset-4">
+                <form class="form-horizontal" role="form" method="post" action="__CONTROLLER__/add_client">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">用户姓名</label>
+                        <div class="col-md-10">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">单位名称</label>
+                        <div class="col-md-10">
+                            <input type="text" name="danwei" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">用户类型</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="type">
+                                <option>免费</option>
+                                <option>办公</option>
+                                <option>家庭</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">楼号</label>
+                        <div class="col-md-10">
+                           <select class="form-control" name="building">
+                            <volist name="build" id="build">
+                                <option value="<{$build.id}>"><{$build.name}></option>
+                            </volist>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">住址</label>
+                        <div class="col-md-10">
+                            <input type="text" name="address" class="form-control" placeholder="如：教1-1-101 ">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">电话</label>
+                        <div class="col-md-10">
+                            <input type="text" name="number" class="form-control" placeholder="只能填写数字">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">E-mail</label>
+                        <div class="col-md-10">
+                            <input type="text" name="mail" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-offset-2 col-md-6">
+                        <button type="submit" class="btn btn-primary form-control" >
+                            <span>添加</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+          </div>
+	</div><!--col-md-12-->
+</div><!--row-->
+</div><!--container-fluid-->
+</div><!--page-wrapper-->
+	<!-- jQuery -->
+    <script src="__PUBLIC__/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="__PUBLIC__/js/plugins/morris/raphael.min.js"></script>
+    <script src="__PUBLIC__/js/plugins/morris/morris.min.js"></script>
+    <script src="__PUBLIC__/js/plugins/morris/morris-data.js"></script>
+
+</body>
+
+</html>

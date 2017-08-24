@@ -1,0 +1,214 @@
+<include file = '.\Application\Msu\View\base.html'/>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-success alert-dismissable fade in hidden" onclick="$(this).attr('class','alert alert-success alert-dismissable fade in hidden');">
+                <button  type="button" class="close" aria-hidden="true">&times;</button>
+                <i class="fa fa-info-circle" id="tip"></i>
+            </div>
+        </div>
+    </div>
+	 <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    值班签到
+                    <small><{$org}></small> 
+                </h1>
+            </div>
+        </div>
+        <div>
+        	<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+			  <li role="presentation" class="active"><a href="#afternoon" role="tab" data-toggle="tab">下午值班签到</a></li>
+			  <li role="presentation"><a href="#night" role="tab" data-toggle="tab">晚班值班签到</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+			  <div role="tabpanel" class="tab-pane fade in active" id="afternoon">
+	  			<div class="container-fluid">
+			  		<div class="row" style="margin-top: 50px">
+			  			<form action="__CONTROLLER__/afternoon_sign" method="post" class="form-horizontal" role="form">
+			  				<div class="form-group">
+			  					<label class="control-label col-md-2 col-md-offset-1">报警说明</label>
+			  					<div class="col-md-4">
+			  						<input type="text" name="note" value="无" class="form-control">
+			  						<input type="hidden" name="type" value="下午班">
+			  					</div>
+			  					<div class="col-md-2">
+			  						<button type="button" class="btn btn-primary form-control qiandao_afternoon"> 签到 </button>
+			  					</div>
+			  				</div>
+			  			</form>
+               			<div class="col-xs-12">
+                    		<div class="table-responsive">
+                        		<table class="table table-hover table-bordered">
+                        		<tr>
+                        			<th>姓名</th>
+                        			<th>时间</th>
+                        			<th>类型</th>
+                        			<th>报警说明</th>
+                        			<th>删除</th>
+                        		</tr>
+                        		<volist name="list_afternoon" id="list_afternoon">
+                        		<tr>
+                        			<td><{$list_afternoon.name}></td>
+                        			<td><{$list_afternoon.time}></td>
+                        			<td><{$list_afternoon.type}></td>
+                        			<td><{$list_afternoon.note}></td>
+                        			<td><button  data-name="<{$list_afternoon.name}>" class="btn btn-danger btn-xs delete" disabled="disabled" data-toggle="modal" data-target="#delete<{$list_afternoon.id}>">删除<span class="glyphicon glyphicon-trash"></span></button>
+                                     <!--Modal-->
+                                     <div class="modal fade" id="delete<{$list_afternoon.id}>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                       <span aria-hidden="true">&times;</span>
+                                                       <span class="sr-only">Close</span>
+                                                     </button>
+                                                    <h4 class="modal-title" id="ModalLabel">确认框</h4>
+                                                </div>
+
+                                                <!-- Modal Body -->
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal" role="form" action="" method="get">
+                                                    <div class="col-md-offset-3"> <h3>确认删除该条签到记录吗？</h3></div>
+                                                       <input type="hidden" name="id" value="<{$list_afternoon.id}>">
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary shanchu" data-dismiss="modal">确认</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </td>
+                        		</tr>
+                        		</volist>
+                        		</table>
+                    		</div>
+                		</div>
+			  		</div>
+			  	</div>
+			  	<nav>
+                <center>
+                <ul class="pagination"><{$show_afternoon}></ul>
+                </center>
+                </nav>
+			  </div>
+			  <div role="tabpanel" class="tab-pane fade" id="night">
+			  	<div class="container-fluid">
+			  		<div class="row" style="margin-top: 50px">
+			  			<form action="__CONTROLLER__/night_sign" method="post" class="form-horizontal" role="form">
+			  				<div class="form-group">
+			  					<label class="control-label col-md-2 col-md-offset-1">报警说明</label>
+			  					<div class="col-md-4">
+			  						<input type="text" name="note" value="无" class="form-control">
+			  						<input type="hidden" name="type" value="晚班">
+			  					</div>
+			  					<div class="col-md-2">
+			  						<button type="button" class="btn btn-primary form-control qiandao_night"> 签到 </button>
+			  					</div>
+			  				</div>
+			  			</form>
+               			<div class="col-xs-12">
+                    		<div class="table-responsive">
+                        		<table class="table table-hover table-bordered">
+                        		<tr>
+                        			<th>姓名</th>
+                        			<th>时间</th>
+                        			<th>类型</th>
+                        			<th>报警说明</th>
+                        			<th>删除</th>
+                        		</tr>
+                        		<volist name="list_night" id="list_night">
+                        		<tr>
+                        			<td><{$list_night.name}></td>
+                        			<td><{$list_night.time}></td>
+                        			<td><{$list_night.type}></td>
+                        			<td><{$list_night.note}></td>
+                        			<td><button  data-name="<{$list_night.name}>" class="btn btn-danger btn-xs delete" disabled="disabled" data-toggle="modal" data-target="#delete<{$list_night.id}>">删除<span class="glyphicon glyphicon-trash"></span></button>
+                                     <!--Modal-->
+                                     <div class="modal fade" id="delete<{$list_night.id}>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                       <span aria-hidden="true">&times;</span>
+                                                       <span class="sr-only">Close</span>
+                                                     </button>
+                                                    <h4 class="modal-title" id="ModalLabel">确认框</h4>
+                                                </div>
+
+                                                <!-- Modal Body -->
+                                                <div class="modal-body">
+                                                    <form class="form-horizontal" role="form" action="" method="get">
+                                                    <div class="col-md-offset-3"> <h3>确认删除该条签到记录吗？</h3></div>
+                                                       <input type="hidden" name="id" value="<{$list_night.id}>">
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary shanchu" data-dismiss="modal">确认</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </td>
+                        		</tr>
+                        		</volist>
+                        		</table>
+                    		</div>
+                		</div>
+			  		</div>
+			  	</div>
+			  	<nav>
+                <center>
+                <ul class="pagination"><{$show_night}></ul>
+                </center>
+                </nav>
+			  </div>
+			</div>
+        </div>
+
+
+</div>
+<!-- /#page-wrapper -->
+
+    <!-- jQuery -->
+    <script src="__PUBLIC__/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+    <script src="__PUBLIC__/js/myself.js"></script>
+    <script>
+        $(function(){
+            $(".qiandao_afternoon").click(function(){
+                var select = $(this).parents('form');
+                submit(select,'__CONTROLLER__/afternoon_sign','POST','签到成功！');
+            });
+            $(".qiandao_night").click(function(){
+                var select = $(this).parents('form');
+                submit(select,'__CONTROLLER__/night_sign','POST','签到成功！');
+            });
+            $(".shanchu").click(function(){
+                var select = $(this).parents('form');
+                submit(select,'__CONTROLLER__/delete','GET','删除成功！');
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(".delete").each(function(){
+            if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员' || '<{$Think.session.name}>' == $(this).data("name"))
+                $(this).removeAttr("disabled");
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<include file = '.\Application\Msu\View\base.html'/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">维护工作量查询</h1>
+        </div>
+    </div>
+    <div class="row">
+        <form action="__URL__/" class="form-inline" method="get" id="search" role="form" style="text-align: center;margin-bottom: 20px;margin-top: 50px">
+            <div class="form-group">
+                <label class="control-label">姓名：</label>
+                <select name="name" class="form-control">
+                    <option value="" selected> --全部-- </option>
+                    <volist name="name" id="name">
+                        <option value="<{$name.uid}>"> <{$name.name}> </option>
+                    </volist>   
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">开始时间：</label>
+                <div class="input-group">
+                    <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                    <input class="form-control" type="text" name="start" id="start">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">结束时间：</label>
+                <div class="input-group">
+                    <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                    <input class="form-control" type="text" name="finish" id="finish">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">类型：</label>
+                <select name="type" class="form-control">
+                    <option value="" selected> --全部-- </option>
+                    <volist name="type" id="type"> 
+                        <option value="<{$type.type}>"> <{$type.type}> </option>
+                    </volist>   
+                </select>
+            </div>
+            <button class="btn btn-primary glyphicon glyphicon-search">查询</button>
+        </form>
+    </div>          
+    <div class="row-fluid">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                住址
+                            </th>
+                            <th>
+                                完成时间
+                            </th>
+                            <th>
+                                解决方案
+                            </th>
+                            <th>
+                                参与人员
+                            </th>
+                            <th>
+                                签名人员
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <volist name='list' id="list">
+                            <tr>
+                                <td>
+                                <a href="__MODULE__/weihu/client_record/id/<{$list.id}>"><{$list.building}><{$list.unit}><{$list.room}></a>
+                                </td>
+                                <td>
+                                    <{$list.finish_time}>
+                                </td>
+                                <td>
+                                    <{$list.solution}>
+                                </td>
+                                <td>
+                                    <{$list.completer}>
+                                </td>
+                                <td>
+                                    <{$list.reporter}>
+                                </td>
+                            </tr>
+                        </volist>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<nav>
+    <center>
+        <ul class="pagination"><{$show}></ul>
+        <h3><span class="label label-info">共<{$count}>条</span></h3>
+    </center>
+</nav>
+
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="__PUBLIC__/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+<!-- 日期时间选择器 -->
+<script src="__PUBLIC__/js/foundation-datepicker.js"></script>
+<script src="__PUBLIC__/js/locales/foundation-datepicker.zh-CN.js"></script>
+<script>
+    $('#start').fdatepicker({
+        format: 'yyyy-mm-dd'
+    });
+    $('#finish').fdatepicker({
+        format: 'yyyy-mm-dd'
+    });
+</script>
+</body>
+
+</html>

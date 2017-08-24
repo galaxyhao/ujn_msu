@@ -1,0 +1,210 @@
+<include file = '.\Application\Msu\View\base.html'/>
+
+<div id="page-wrapper">
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">已完成</h1>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-success alert-dismissable fade in hidden" onclick="$(this).attr('class','alert alert-success alert-dismissable fade in hidden');">
+                    <button  type="button" class="close" aria-hidden="true">&times;</button>
+                    <i class="fa fa-info-circle" id="tip"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>维护地点</th>
+                                <th>电话</th>
+                                <th>姓名</th>
+                                <th>故障说明</th>
+                                <th>登记时间</th>
+                                <th>完成时间</th>
+                                <th>登记员</th>
+                                <th>解决方案</th>
+                                <th>维护人员</th>
+                                <th>签名人员</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <volist name='list' id='vo'>
+                                <tr>
+                                    <td>
+                                        <a href="__CONTROLLER__/client_record/id/<{$vo.id}>"><{$vo.building}><{$vo.unit}><{$vo.room}></a>
+                                    </th>
+                                    <td><{$vo.numbers}></td>
+                                    <td><{$vo.client}></td>
+                                    <td><{$vo.note}></td>
+                                    <td><{$vo.register_time}></td>
+                                    <td><{$vo.finish_time}></td>
+                                    <td><{$vo.adder}></td>
+                                    <td><{$vo.solution}></td>
+                                    <td><{$vo.completer}></td>
+                                    <td><{$vo.reporter}></td>
+                                    <td>
+
+                                        <button class="btn btn-primary btn-xs reporter" disabled="disabled" data-toggle="modal" data-target="#modal<{$vo.id}>" data-reporter="<{$vo.reporter}>">修改</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal<{$vo.id}>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">
+                                                         <span aria-hidden="true">&times;</span>
+                                                         <span class="sr-only">Close</span>
+                                                     </button>
+                                                     <h4 class="modal-title" id="myModalLabel"><{$vo.building}><{$vo.unit}><{$vo.room}></h4>
+                                                 </div>
+
+                                                 <!-- Modal Body -->
+                                                 <div class="modal-body">
+                                                    <form class="form-horizontal" role="form" action="__CONTROLLER__/weihu_save" method="post">
+                                                        <div class="form-group">
+                                                          <label class="col-sm-2 control-label">维护人员</label>
+                                                          <div class="col-sm-10">
+                                                            <div class="checkbox">
+                                                              <div class="row">
+                                                                <div class="col-xs-10">
+                                                                    <volist name='completer' id='completers'>
+                                                                      <label>
+                                                                          <input type="checkbox" name='completer[]' value="<{$completers.uid}>" /> <{$completers.name}>&nbsp;&nbsp;&nbsp;
+                                                                      </label>
+                                                                  </volist>  
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <label class="col-sm-2 control-label">是否完成</label>
+                                                <div class="col-sm-10">
+                                                  <label>
+                                                      <input type="radio" name="status" value="完成" > 完成
+                                                  </label>
+                                                  <label>
+                                                      <input type="radio" name="status" value="未完成"/> 未完成
+                                                  </label>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label class="col-sm-2 control-label">维护类型</label>
+                                            <div class="col-sm-10">
+                                                <volist name='type' id='types' >
+                                                  <label>
+                                                      <input type="radio" name="type" value='<{$types.id}>' > <{$types.type}>&nbsp;&nbsp;&nbsp;
+                                                  </label>
+                                              </volist>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-2 control-label">解决方案</label>
+                                        <div class="col-sm-10">
+                                            <textarea name="solution" class="form-control" rows="5" id="comment"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- 设置一个隐藏域，用来提交当前维护的rid -->
+                                    <input type="hidden" name="rid" value="<{$vo.id}>">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary xiugai" data-dismiss="modal">修改</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-danger btn-xs delete " disabled="disabled" data-toggle="modal" data-target="#delete<{$vo.id}>" >删除<span class="glyphicon glyphicon-trash"></span></button>
+                <!--Modal-->
+                <div class="modal fade" id="delete<{$vo.id}>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                 <span aria-hidden="true">&times;</span>
+                                 <span class="sr-only">Close</span>
+                             </button>
+                             <h4 class="modal-title" id="ModalLabel"><{$vo.building}><{$vo.unit}><{$vo.room}></h4>
+                         </div>
+
+                         <!-- Modal Body -->
+                         <div class="modal-body">
+                            <form class="form-horizontal" role="form" action="__CONTROLLER__/weihu_delete" method="get">
+                                <div class="col-md-offset-3"> <h3>确认删除该条维护记录吗？</h3></div>
+                                <input type="hidden" name="rid" value="<{$vo.id}>">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary shanchu" data-dismiss="modal">确认</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </td>
+    </tr>
+</volist>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->
+
+<nav>
+    <center>
+        <ul class="pagination"><{$show}></ul>
+    </center>
+</nav>
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="__PUBLIC__/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+<script src="__PUBLIC__/js/myself.js"></script>
+<script>
+    $(function(){
+        $(".xiugai").click(function(){
+            var select = $(this).parents('form');
+            submit(select,'__CONTROLLER__/weihu_save','POST','修改成功！');
+        });
+        $(".shanchu").click(function(){
+            var select = $(this).parents('form');
+            submit(select,'__CONTROLLER__/weihu_delete','GET','删除成功！');
+        });
+    });
+</script>
+<script type="text/javascript">
+    if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员')
+        $(".delete").removeAttr("disabled");
+
+    $(".reporter").each(function(){
+        if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员' || '<{$Think.session.name}>' == $(this).data("reporter"))
+            $(this).removeAttr("disabled");
+    });
+</script>
+
+</body>
+
+</html>

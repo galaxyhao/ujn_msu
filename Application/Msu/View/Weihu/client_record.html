@@ -1,0 +1,53 @@
+<include file = '.\Application\Msu\View\base.html'/>
+<div id="page-wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<h1 class="page-header"><{$building}><{$unit}><{$room}>维护记录</h1>
+		</div>
+
+       <div class="row">
+          <div class="col-md-12">
+             <div></div>
+         </div>
+     </div>
+
+     <table class="table table-bordered table-hover table-striped">
+       <thead>
+           <tr>
+              <th>姓名</th>
+              <th>登记时间</th>
+              <th>完成时间</th>
+              <th>问题描述</th>
+              <th>解决方案</th>
+              <th>参与维护人员</th>
+          </tr>
+      </thead>
+      <tbody>
+        <volist name="list" id="list">
+        	<tr>
+        		<td><{$list.client}></td>
+        		<td><{$list.register_time}></td>
+        		<td><{$list.finish_time}></td>
+        		<td><{$list.note}></td>
+        		<td><{$list.solution}></td>
+        		<td><{$list.completer}></td>
+        	</tr>
+        </volist>
+    </tbody>
+</table>
+</div>
+</div>
+<!-- jQuery -->
+<script src="__PUBLIC__/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="__PUBLIC__/js/plugins/morris/raphael.min.js"></script>
+<script src="__PUBLIC__/js/plugins/morris/morris.min.js"></script>
+<script src="__PUBLIC__/js/plugins/morris/morris-data.js"></script>
+
+</body>
+
+</html>
