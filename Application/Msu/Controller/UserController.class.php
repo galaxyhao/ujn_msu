@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Msu\Controller;
 use Think\Controller;
 class UserController extends Controller{
@@ -28,11 +28,11 @@ class UserController extends Controller{
 		 *</code>
 		 * @param array  $array  需要修改的数组
 		 * @param string $key    需要修改的键值
-		 * @param mixed  $value  需要设置的值 
+		 * @param mixed  $value  需要设置的值
 		 * @return array
 		 */
 		function C($array, $key, $value){
-		    if(!is_array($array)) 
+		    if(!is_array($array))
 		        return;
 		    if(is_string($key)){
 		        if(strpos($key, '.') === false)
@@ -43,11 +43,11 @@ class UserController extends Controller{
 		            $level == 2 ? ($array[$pos[0]][$pos[1]] = $value) : ($array[$pos[0]][$pos[1]][$pos[2]] = $value);
 		        }
 		    }
-		    return $array;  
+		    return $array;
 		}
 
 
-		for ($i=0; $i < count($arr); $i++) { 
+		for ($i=0; $i < count($arr); $i++) {
 			$IdOfOrg = $arr[$i]['organization'];
 			$NameOfOrg = $xueyuan->where("id = $IdOfOrg")->getfield('organization');
 			$arr = C($arr,"$i.organization",$NameOfOrg);
@@ -77,6 +77,7 @@ class UserController extends Controller{
 
 
 	public function modify(){
+	    $tag = 0;
 		$uid = $_GET['uid'];
 		$m = M('User');
 		$arr = $m->find($uid);
@@ -91,17 +92,26 @@ class UserController extends Controller{
 		$m=M('User');
 		$data['uid'] = $_POST['uid'];
 		$data['name'] = $_POST['name'];
-		$data['account'] = $_POST['account'];//有坑：需增加重复检测
-		$data['password'] = $_POST['password'];//有坑：需增加密码验证
+		$data['account'] = $_POST['account'];
+		$data['password'] = md5($_POST['password']);
 		$data['organization'] = $_POST['organization'];
 		$data['location'] = $_POST['location'];
 		$data['gid'] = $_POST['gid'];
 		$data['numbers'] = $_POST['numbers'];
 		$data['level'] = $_POST['level'];
-		$count = $m->save($data);
+        if($this->isUserExist($m->account)){
+            $this->error('错误！账户:'.$m->account.'已存在');
+        }
 
-		if($count){
-			$this->success('数据修改成功','index');
+        if(!$this->isOrganizationExist($data['organization'])){
+            $this->error('错误！学院:'.$m->organization.'不存在');
+        }else{
+            $data['organization']= M('organization')->where("organization = '%s'",$data['organization'])->getField('id');
+
+        }
+
+		if($m->save($data)){
+			$this->success('信息修改成功','index');
 		}else{
 			$this->error('数据修改失败');
 		}
@@ -111,8 +121,8 @@ class UserController extends Controller{
 	public function user_create(){
 		$m = M('User');
 		$m->name = $_POST['name'];
-		$m->account = $_POST['account'];//有坑：需增加重复检测
-		$m->password = $_POST['password'];//有坑:增加md5
+		$m->account = $_POST['account'];
+		$m->password = md5($_POST['password']);
 		$m->organization = $_POST['organization'];
 		$m->location = $_POST['location'];
 		$m->gid = $_POST['gid'];
@@ -120,14 +130,84 @@ class UserController extends Controller{
 		$m->level = $_POST['level'];
 		//以上部分应该有更简洁的代码表示方式
 
+		if($this->isUserExist($m->account)){
+			$this->error('错误！账户:'.$m->account.'已存在');
+		}
+
+        if(!$this->isOrganizationExist($m->organization)){
+            $this->error('错误！学院:'.$m->organization.'不存在');
+        }else{
+        	$m->organization = M('organization')->where("organization = '%s'",$m->organization)->getField('id');
+
+		}
+
+
 		$idNum = $m->add();
 		if($idNum){
-			$this->success('数据集添加成功');
+			$this->success('用户添加成功');
 		}else{
 			$this->error('数据添加失败');
 		}
 	}//增加用户信息
 
+	/*
+	 * @param account String 账户
+	 * @return boolean
+	 * */
+	public function isUserExist($account){
+        $find = M('user') ->where(
+            array(
+                'account' => $account
+            )
+        )->find();
+        if (null == $find && false == $find ){
+        	return false;
+		}else{
+        	return true;
+		}
+	}
+    /**
+     * @param $organiation
+     * @return bool
+     */
+    public function isOrganizationExist($organization){
+//        $organization = "'".$organization."'";
+//        $find = M('organization') ->where(
+//            array(
+//                'organization' => $organization
+//            )
+//        )->find();
+        $find=M('organization')->where("organization='%s'",$organization)->select();
+        if (null == $find && false == $find ){
+            return false;
+        }else{
+            return true;
+        }
+	}
+
+    /**
+     * @return mixed
+     */
+    public function getOrganization($keyword = ''){
+        $keyword = I("param.keyword");
+        $organizationModel = M('organization');
+
+        $searchResult = $organizationModel->where(
+             array(
+                 'organization' => array(
+                     'like','%'.$keyword.'%'
+                 )
+             )
+        )->select();
+//        $searchResult = $organizationModel->where(
+//             array(
+//                 'organization' => $keyword
+//             )
+//        )->field('organization')->select();
+        $this->ajaxReturn($searchResult);
+//        dump($searchResult);
+//        return $searchResult;
+	}
 
 	public function search(){
 		if(isset($_POST['name']) && $_POST['name']!=null){
@@ -151,5 +231,5 @@ class UserController extends Controller{
 
 
 }
-		
+
 ?>

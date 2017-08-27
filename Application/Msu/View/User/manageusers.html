@@ -48,24 +48,32 @@
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">学院</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" placeholder="学院" name="organization">
+                                              <input type="text" class="form-control " placeholder="学院" name="organization" id="add-organization">
+                                              <!--<div class="gov_search_suggest" >-->
+                                                    <!--<ul></ul>-->
+                                              <!--</div>-->
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">校区</label>
                                           <div class="col-sm-10">
-                                            <label>
-                                                <input type="radio" name="location" checked/> 西校区
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="location"/> 东校区
-                                            </label>
+                                              <select class="selectpicker" name="location">
+                                                  <option value="西" selected = selected>西校区</option>
+                                                  <option value="东">东校区</option>
+                                              </select>
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">用户组</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control" name="gid">
+                                              <!--<input type="text" class="form-control" name="gid">-->
+                                              <!--TODO 此地方写死-->
+                                              <select class="selectpicker" name="gid">
+                                                  <option value="维护员" selected = selected>维护员</option>
+                                                  <option value="学院管理员">学院管理员</option>
+                                                  <option value="缴费管理员">缴费管理员</option>
+                                                  <option value="超级管理员">超级管理员</option>
+                                              </select>
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -174,26 +182,31 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">学院</label>
+                                                    <label class="col-sm-2 control-label ">学院</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" placeholder="学院"  name="organization" value="<{$vo.organization}>">
+                                                        <input type="text" class="form-control" placeholder="学院"  name="organization" value="<{$vo.organization}>" id="modify-organization">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">校区</label>
                                                     <div class="col-sm-10">
-                                                      <label>
-                                                          <input type="radio" name="location" checked value="西"/> 西校区
-                                                      </label>
-                                                      <label>
-                                                          <input type="radio" name="location" value="东"/> 东校区
-                                                      </label>
+                                                        <select class="selectpicker" name="location">
+                                                            <option value="西" selected = selected>西校区</option>
+                                                            <option value="东">东校区</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">用户组</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" value="<{$vo.gid}>"  name="gid">
+                                                        <!--<input type="text" class="form-control" name="gid">-->
+                                                        <!--TODO 此地方写死-->
+                                                        <select class="selectpicker" name="gid">
+                                                            <option value="维护员" selected = selected>维护员</option>
+                                                            <option value="学院管理员">学院管理员</option>
+                                                            <option value="缴费管理员">缴费管理员</option>
+                                                            <option value="超级管理员">超级管理员</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -296,12 +309,54 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="__PUBLIC__/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/js/bootstrap3-typeahead.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
     <script src="__PUBLIC__/js/plugins/morris/raphael.min.js"></script>
     <script src="__PUBLIC__/js/plugins/morris/morris.min.js"></script>
     <script src="__PUBLIC__/js/plugins/morris/morris-data.js"></script>
 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+    <!--<script src="__PUBLIC__/js/search.js"></script>-->
+<script>
+
+    //@Billgo-------------------------------------
+    var server = 'http://localhost/ujn-msu/ujn_msu/index.php/Msu/';
+    var $addOrganization = $('#add-organization');
+    var $modifyOrganization = $('#modify-organization');
+    var ajaxSearch = {
+        source:function(query,process){
+            $.ajax({
+                type: "GET",
+                url:server+"user/getOrganization",
+                async: false,
+                data: {keyword:query},
+                dataType:"json",
+                success:function (data) {
+                    var key = data;
+                    var aData = [];
+                    for(var i=0;i<key.length;i++){
+                        if(key[i].organization!=""){
+                            aData.push(key[i].organization);
+                        }
+                    }
+                    //将返回的数据传递给实现搜索输入框的输入提示js类
+                    process(aData);
+                }
+            });
+        }
+    };
+    $addOrganization.typeahead(ajaxSearch);
+    $modifyOrganization.typeahead(ajaxSearch);
+    //---------------------------------------------
+</script>
 </body>
 
 </html>
