@@ -2,8 +2,9 @@
 namespace Msu\Model;
 use Think\Model;
  
-class WebModel extends Model
+class WebMoneyModel extends Model
 {
+    protected $trueTableName = 'new_webmoney'; 
 	protected $connection = array(
         'db_type'  => 'mysql',
         'db_user'  => 'msutest',
@@ -14,6 +15,5 @@ class WebModel extends Model
         'db_charset' => 'GBK',
         'db_params' =>  array(), // 非必须
     );
-    protected $trueTableName = 'dnslist_copy'; 
 }
 ?>

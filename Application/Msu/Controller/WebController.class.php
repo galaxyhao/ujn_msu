@@ -1,17 +1,99 @@
 <?php
 namespace Msu\Controller;
-//use Vendor\PHPMailer;
+use Vendor\PHPMailer;
 class WebController extends RootController
 {
-	
+    public $userName = null;
+    public function _initialize(){
+        parent::_initialize();
+        $this->userName = $_SESSION['name'];
+        $this->userName = iconv('utf-8','gbk',$this->userName);
+    }
+    public function index(){
+        $this->display();
+    }
 	public function web_list()
 	{
-		$web = D('Web');
-		$data = $web->where()->select();
-		$this -> assign('data',$data);
+        $web = D('WebView');
+        $count = $web -> count();
+        $Page = new \Think\Page($count,25);
+        $show = $Page->show();
+        $data = $web->limit($Page->firstRow.','.$Page->listRows)->select();
+        $this -> assign('data',$data);
+        $this -> assign('name',$this->userName);
+        $this -> assign('show',$show);
 		$this -> display('web_list','gbk');
-	}
-    function send_mail(){
+    }
+    //网站缴费
+    public function web_pay(){
+        $record['start_time'] = strtotime(I('post.startdate'));
+        $record['end_time'] = strtotime(I('post.enddate'));
+        $record['edit_time'] = time();
+        $record['money'] = I('post.money');
+        $record['dns'] = I('post.dns');
+        $record['user'] = $_SESSION['name'];
+        if($record['start_time'] > $record['end_time']){
+            $this->ajaxReturn('开始时间不得大于结束时间','eval');
+        }
+        $pay_record = D('WebPayRecord');
+        if(!$pay_record->create($record)){
+            $this->ajaxReturn($pay_record->getError(),'eval');
+        }else{
+            $pay_record->add($record);
+        }
+        $WebMoney = D('WebMoney');
+        $web = I('post.');
+        $web['user'] = $this->userName;
+        $result = $WebMoney->where(array('domin'=>$web['dns']))->save($web);
+        if($result){
+            $this->ajaxReturn('success','eval');
+        }else{
+            $this->ajaxReturn('缴费失败，请重试','eval');
+        }
+    }
+    //编辑资料
+    public function edit()
+    {
+        $dnsname = I('get.dnsname');
+        $dns = D('DnsList');
+        $data = $dns->where(['dnsname'=>$dnsname])->find();
+        $this -> assign('data',$data);
+        $this -> assign('name',$this->userName);
+		$this -> display('edit','gbk');
+    }
+    //提交修改
+    private function edit_post(){
+        $data = $_POST;
+        $DnsList = D('DnsList');
+        $data['xxxgr'] = $this->userName;
+        $data['xxxgrq'] = date('Y-m-d H:i:s');
+        if(!$DnsList->create($data)){
+            $this->ajaxReturn($DnsList->getError(),'eval');
+        }else{
+            $res = $DnsList->where(['dnsname'=>$data['dnsname']])->save($data);
+        }
+        if($res){
+            $this->ajaxReturn('success','eval');
+        }else{
+            $this->ajaxReturn('提交修改失败','eval');
+        }
+    }
+    public function payRecord(){
+        $dnsname = I('get.dnsname/s');
+        if(empty($dnsname)){
+            $this->error('错误的请求！');
+        }
+        $data = M('webpay_record')->where(['dns'=>$dnsname])->select();
+        foreach ($data as $key => $value) {
+            $data[$key]['start_time'] = date('Y-m-d',$data[$key]['start_time']);
+            $data[$key]['end_time'] = date('Y-m-d',$data[$key]['end_time']);
+            $data[$key]['edit_time'] = date('Y-m-d H:i:s',$data[$key]['edit_time']);
+        }
+
+        $this->assign('data',$data);
+        $this->display();
+    }
+    private function send_mail(){
         dump($this -> think_send_mail('916413446@qq.com','lrhest','济南大学网站欠费提醒','123'));
     }
 	 /**
