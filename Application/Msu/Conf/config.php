@@ -1,10 +1,10 @@
 <?php
 return array(
 	'DB_TYPE'               =>  'mysql',     	// 数据库类型
-    'DB_HOST'               =>  '192.168.253.4',	// 服务器地址
-    'DB_NAME'               =>  'msu2017',      // 数据库名
-    'DB_USER'               =>  'msu2017',      	// 用户名
-    'DB_PWD'                =>  'Unfw832dfnnm',    // 密码
+    'DB_HOST'               =>  'localhost',	// 服务器地址
+    'DB_NAME'               =>  'new_msu',      // 数据库名
+    'DB_USER'               =>  'root',      	// 用户名
+    'DB_PWD'                =>  '',    // 密码
     'DB_PORT'               =>  '3306',        	// 端口
     'DB_PREFIX'             =>  'msu_',    		// 数据库表前缀
 
