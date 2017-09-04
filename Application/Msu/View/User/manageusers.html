@@ -21,7 +21,7 @@
                                      <span aria-hidden="true">&times;</span>
                                      <span class="sr-only">Close</span>
                                    </button>
-                                  <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+                                  <h4 class="modal-title">添加用户</h4>
                               </div>
                                 
                               <!-- Modal Body -->
@@ -48,10 +48,7 @@
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">学院</label>
                                           <div class="col-sm-10">
-                                              <input type="text" class="form-control " placeholder="学院" name="organization" id="add-organization">
-                                              <!--<div class="gov_search_suggest" >-->
-                                                    <!--<ul></ul>-->
-                                              <!--</div>-->
+                                              <input type="text" class="form-control " placeholder="学院" autocomplete="off" name="organization" id="add-organization">
                                           </div>
                                       </div>
                                       <div class="form-group">
@@ -175,16 +172,11 @@
                                                         <input type="text" class="form-control" placeholder="账号"  name="account" value="<{$vo.account}>">
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">密码</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" placeholder="密码"  name="password" value="">
-                                                    </div>
-                                                </div>
+
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label ">学院</label>
                                                     <div class="col-sm-10">
-                                                        <input type="text" class="form-control" placeholder="学院"  name="organization" value="<{$vo.organization}>" id="modify-organization">
+                                                        <input type="text" class="form-control" autocomplete="off" placeholder="学院"  name="organization" value="<{$vo.organization}>" id="modify-organization">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -323,19 +315,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script> 这一部分加载很慢，不知道什么作用所以注释(by Billgo)-->
     <!--<script src="__PUBLIC__/js/search.js"></script>-->
 <script>
 
     //@Billgo-------------------------------------
-    var server = 'http://localhost/ujn-msu/ujn_msu/index.php/Msu/';
+    //TODO 修改url方法
+    var server = "__MODULE__";
     var $addOrganization = $('#add-organization');
     var $modifyOrganization = $('#modify-organization');
     var ajaxSearch = {
         source:function(query,process){
             $.ajax({
                 type: "GET",
-                url:server+"user/getOrganization",
+                url:server+"/user/getOrganization",
                 async: false,
                 data: {keyword:query},
                 dataType:"json",
@@ -343,7 +336,7 @@
                     var key = data;
                     var aData = [];
                     for(var i=0;i<key.length;i++){
-                        if(key[i].organization!=""){
+                        if(key[i].organization!==""){
                             aData.push(key[i].organization);
                         }
                     }

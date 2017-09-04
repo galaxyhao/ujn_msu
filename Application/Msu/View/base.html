@@ -55,8 +55,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>  <{$Think.session.name}> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> 设置</a>
+                            <a id="updatePassword" href="JavaScript:void(0)"><i class="fa fa-fw fa-gear"></i>修改密码</a>
                         </li>
+
                         <li class="divider"></li>
                         <li>
                             <a href="__MODULE__/login/loginout"><i class="fa fa-fw fa-power-off"></i> 注销</a>
@@ -64,6 +65,41 @@
                     </ul>
                 </li>
             </ul>
+            <div class="modal fade" id="updatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">修改密码</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label class="form-control-label">输入原密码</label>
+                                    <input type="password" class="form-control" id="currPassword" autocomplete="off">
+                                    <input type="text" class="form-control hide" id="uid" autocomplete="off" value="<{$Think.session.uid}>">
+
+                                </div>
+                                <div class="form-group" >
+                                    <label class="form-control-label" >输入新密码</label>
+                                    <input type="password" class="form-control" id="newPassword" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">再次输入新密码</label>
+                                    <input type="password" class="form-control" id="confirm" autocomplete="off">
+                                    <div class="alert alert-danger hide" id="errMsg">两次输入密码不一致</div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="updatePasswordBtn">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse" >
                 <ul class="nav navbar-nav side-nav" style="background: #EEEEEE">
@@ -125,3 +161,73 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
+    </div>
+</body>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script  type="text/javascript">
+//    调用修改密码模态框
+$(function () {
+    var $updatePasswordBtn = $("#updatePassword");
+    var $modal = $("#updatePasswordModal");
+    $updatePasswordBtn.on('click', function(){
+        $modal.modal({backdrop:false});
+//        $(".modal-backdrop").remove();
+    });
+});
+$(function () {
+    var $updatePasswordBtn = $('#updatePasswordBtn');
+
+    var $currPassword = $('#currPassword');
+    var $newPassword = $('#newPassword');
+    var $confirm = $('#confirm');
+    var $uid = $('#uid');
+
+    var $errMsg = $('#errMsg');
+    var showMsg = function(msg){
+        $errMsg.text(msg);
+        $errMsg.attr("class","alert-danger");
+    };
+
+
+    var hideMsg = function (errMsg) {
+        errMsg.attr("class","hide");
+    };
+    $updatePasswordBtn.on('click',function () {
+        hideMsg($errMsg);
+        if ($confirm.val() !== $newPassword.val()){
+            showMsg('两次输入密码不一致');
+        }else if($confirm.val() === ""){
+            showMsg('密码不能为空');
+        }else{
+                var $data = {
+                    "uid" : $uid.val(),
+                    "currPassword": $currPassword.val(),
+                    "newPassword": $newPassword.val()
+                };
+                $.ajax({
+                type: "PUT",
+                url:'__MODULE__/user/updatePassword',
+                data: $data,
+                dataType:"json",
+                success:function (data) {
+                    if(0 === data.status) {
+                        showMsg(data.info);
+                    }else {
+                        alert("密码修改成功");
+                        $('#updatePasswordModal').modal('hide');
+                        console.log(data);
+                    }
+                }
+
+            })
+        };
+
+
+
+    });
+    var currPassword = function () {
+
+    }
+})
+
+</script>

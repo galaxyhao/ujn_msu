@@ -1,7 +1,13 @@
 <?php
 namespace Msu\Controller;
 use Think\Controller;
-class UserController extends Controller{
+
+
+/*
+ * @author Billgo
+ * 用户操作
+*/
+class UserController extends RootController{
 	public function id_verify(){
 
 	}//有坑：获取登陆用户等级
@@ -93,7 +99,6 @@ class UserController extends Controller{
 		$data['uid'] = $_POST['uid'];
 		$data['name'] = $_POST['name'];
 		$data['account'] = $_POST['account'];
-		$data['password'] = md5($_POST['password']);
 		$data['organization'] = $_POST['organization'];
 		$data['location'] = $_POST['location'];
 		$data['gid'] = $_POST['gid'];
@@ -228,7 +233,31 @@ class UserController extends Controller{
 		$this->display('manageusers');
 	}//实现搜索
 
+    /**
+     * @return bool
+     */
+    public function updatePassword(){
+//        $passwdData = I('param.data')
+        $userModel = M('user');
+        $userId = I('param.uid');
+        $currPassword =I('param.currPassword');
+        $newPassword = I('param.newPassword');
 
+        if(md5($currPassword) != $userModel->where("uid = %s",$userId)->getField('password')){
+            $this->error("原密码不匹配$currPassword");
+            return false;
+        }else {
+
+            if($userModel->where("uid = %s", $userId)->setField('password', md5($newPassword))){
+                $this->success("修改成功$newPassword");
+                return true;
+            }else{
+                $this->error("密码修改失败$currPassword");
+                return false;
+            }
+        }
+
+    }//获取数据库中的密码段并进行比较
 
 }
 
