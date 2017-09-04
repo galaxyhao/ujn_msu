@@ -1,4 +1,6 @@
 <include file = '.\Application\Msu\View\base.html'/>
+<link href="__PUBLIC__/css/foundation-datepicker.css" rel="stylesheet" >
+
 
 <div class="container-fluid">
     <div class="row">
@@ -112,10 +114,12 @@
 <script src="__PUBLIC__/js/locales/foundation-datepicker.zh-CN.js"></script>
 <script>
     $('#start').fdatepicker({
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
     });
     $('#finish').fdatepicker({
-        format: 'yyyy-mm-dd'
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
     });
 </script>
 </body>
