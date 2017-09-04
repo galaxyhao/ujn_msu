@@ -244,7 +244,7 @@ class UserController extends RootController{
         $newPassword = I('param.newPassword');
 
         if(md5($currPassword) != $userModel->where("uid = %s",$userId)->getField('password')){
-            $this->error("原密码不匹配$currPassword");
+            $this->error("原密码不匹配");
             return false;
         }else {
 
