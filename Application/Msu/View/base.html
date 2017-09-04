@@ -159,10 +159,9 @@
                     </li> -->
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </nav>
-    </div>
-</body>
+
+<!--警告：特殊情况，此处标签不应闭合！-->
 <script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
 <script  type="text/javascript">
 //    调用修改密码模态框
@@ -171,7 +170,7 @@ $(function () {
     var $modal = $("#updatePasswordModal");
     $updatePasswordBtn.on('click', function(){
         $modal.modal({backdrop:false});
-//        $(".modal-backdrop").remove();
+
     });
 });
 $(function () {
@@ -188,6 +187,13 @@ $(function () {
         $errMsg.attr("class","alert-danger");
     };
 
+    var clearInput = function(node){
+        if("" !== node.find("input").val()){
+
+            node.find("input").val("");
+        }
+
+    };
 
     var hideMsg = function (errMsg) {
         errMsg.attr("class","hide");
@@ -215,19 +221,16 @@ $(function () {
                     }else {
                         alert("密码修改成功");
                         $('#updatePasswordModal').modal('hide');
-                        console.log(data);
+
                     }
                 }
 
             })
-        };
-
-
+        }
+        clearInput($('#updatePasswordModal'));
 
     });
-    var currPassword = function () {
 
-    }
 })
 
 </script>
