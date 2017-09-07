@@ -1,11 +1,11 @@
 <?php
 namespace Msu\Controller;
 use Think\Controller;
-class EmptyController extends RootController
+class EmptyController extends Controller
 {
 	public function index()
 	{
-		echo "页面不存在";
+		$this->display('/404');
 	}
 	
 }

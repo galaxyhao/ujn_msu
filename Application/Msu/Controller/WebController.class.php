@@ -56,7 +56,7 @@ class WebController extends RootController
     {
         $dnsname = I('get.dnsname');
         $dns = D('DnsList');
-        $data = $dns->where(['dnsname'=>$dnsname])->find();
+        $data = $dns->where(array('dnsname'=>$dnsname))->find();
         $this -> assign('data',$data);
         $this -> assign('name',$this->userName);
 		$this -> display('edit','gbk');
@@ -70,7 +70,7 @@ class WebController extends RootController
         if(!$DnsList->create($data)){
             $this->ajaxReturn($DnsList->getError(),'eval');
         }else{
-            $res = $DnsList->where(['dnsname'=>$data['dnsname']])->save($data);
+            $res = $DnsList->where(array('dnsname'=>$data['dnsname']))->save($data);
         }
         if($res){
             $this->ajaxReturn('success','eval');
@@ -83,7 +83,7 @@ class WebController extends RootController
         if(empty($dnsname)){
             $this->error('错误的请求！');
         }
-        $data = M('webpay_record')->where(['dns'=>$dnsname])->select();
+        $data = M('webpay_record')->where(array('dns'=>$dnsname))->select();
         foreach ($data as $key => $value) {
             $data[$key]['start_time'] = date('Y-m-d',$data[$key]['start_time']);
             $data[$key]['end_time'] = date('Y-m-d',$data[$key]['end_time']);

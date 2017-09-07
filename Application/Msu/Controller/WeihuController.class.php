@@ -25,8 +25,8 @@ class WeihuController extends RootController
 		$w_info['name'] = I('get.name');
 		$w_info['numbers'] = I('get.numbers');
 		
-		$re['note'] = I('get.note','xxx','strip_tags,htmlentities');
-		$re['location'] = I('get.location','xxx','strip_tags,htmlentities');
+		$re['note'] = I('get.note','xxx');
+		$re['location'] = I('get.location','xxx');
 
 		$build = $w_info['building'] =  $address['building'] = I('get.building');
 		$units = $w_info['unit'] = $address['unit'] = I('get.unit');
@@ -288,15 +288,15 @@ class WeihuController extends RootController
 		{
 			echo "该用户的维护记录为空！";
 		}
-		else
+		else{
 			$this -> assign('list',$list);
 			$this -> assign('show',$show);
 
-		$this -> assign('building',$building);
-		$this -> assign('unit',$unit);
-		$this -> assign('room',$room);
-		$this -> display();
-		
+			$this -> assign('building',$building);
+			$this -> assign('unit',$unit);
+			$this -> assign('room',$room);
+			$this -> display();
+		}
 	}
 	//填写维护记录
 	public function weihu_submit()

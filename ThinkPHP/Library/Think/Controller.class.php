@@ -294,6 +294,13 @@ abstract class Controller {
         }
     }
 
+    /**
+     * 空操作
+     */
+    public function _empty(){
+        $this->display('/404');
+    }
+
    /**
      * 析构方法
      * @access public
