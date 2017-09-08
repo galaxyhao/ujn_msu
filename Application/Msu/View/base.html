@@ -211,7 +211,7 @@ $(function () {
                     "newPass": $newPassword.val()
                 };
                 $.ajax({
-                type: "PUT",
+                type: "GET",
                 url:'__MODULE__/user/updatePassword',
                 data: $data,
                 dataType:"json",
