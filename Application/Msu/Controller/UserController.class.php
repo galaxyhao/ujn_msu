@@ -240,8 +240,8 @@ class UserController extends RootController{
 //        $passwdData = I('param.data')
         $userModel = M('user');
         $userId = I('param.uid');
-        $currPassword =I('param.currPassword');
-        $newPassword = I('param.newPassword');
+        $currPassword =I('param.currPass');
+        $newPassword = I('param.newPass');
 
         if(md5($currPassword) != $userModel->where("uid = %s",$userId)->getField('password')){
             $this->error("原密码不匹配");
