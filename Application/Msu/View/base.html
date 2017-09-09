@@ -207,11 +207,11 @@ $(function () {
         }else{
                 var $data = {
                     "uid" : $uid.val(),
-                    "currPassword": $currPassword.val(),
-                    "newPassword": $newPassword.val()
+                    "currPass": $currPassword.val(),
+                    "newPass": $newPassword.val()
                 };
                 $.ajax({
-                type: "PUT",
+                type: "GET",
                 url:'__MODULE__/user/updatePassword',
                 data: $data,
                 dataType:"json",
