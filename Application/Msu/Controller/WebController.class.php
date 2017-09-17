@@ -7,7 +7,9 @@ class WebController extends RootController
     public function _initialize(){
         parent::_initialize();
         $this->userName = $_SESSION['name'];
+        $this->gid = $_SESSION['gid'];
         $this->userName = iconv('utf-8','gbk',$this->userName);
+        $this->gid = iconv('utf-8','gbk',$this->gid);
     }
     public function index(){
         $this->display();
@@ -21,8 +23,9 @@ class WebController extends RootController
         $data = $web->limit($Page->firstRow.','.$Page->listRows)->select();
         $this -> assign('data',$data);
         $this -> assign('name',$this->userName);
+        $this -> assign('gid',$this->gid);
         $this -> assign('show',$show);
-		$this -> display('web_list','gbk');
+        $this -> display('web_list','gbk');
     }
     //网站缴费
     public function web_pay(){
@@ -50,6 +53,12 @@ class WebController extends RootController
         }else{
             $this->ajaxReturn('缴费失败，请重试','eval');
         }
+    }
+    public function _before_edit(){
+        if(!($_SESSION['gid'] == '超级管理员')) 
+		{
+			$this -> error("您无权进行该项操作！");
+		}
     }
     //编辑资料
     public function edit()

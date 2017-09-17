@@ -1,8 +1,16 @@
 <?php
 namespace Msu\Controller;
 use Think\Controller;
-class AdminController extends Controller 
+class AdminController extends RootController 
 {
+    public function _initialize(){
+        if(!isset($_SESSION['uid']) || $_SESSION['uid'] == ''){
+			$this -> redirect('Login/index');
+		}
+		if(!($_SESSION['gid'] == '超级管理员')){
+			$this -> error("您无权查看该页！");
+		}
+    }
     public function index()
     {
     	$building = M('building');
