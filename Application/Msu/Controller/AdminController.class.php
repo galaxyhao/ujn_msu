@@ -10,9 +10,9 @@ class AdminController extends Controller
 
         $build['show'] = 'yes';
     	$count = $building -> where($build) -> count();
-    	$Page = new \Think\Page($count,5);
+    	$Page = new \Think\Page($count,20);
     	$show = $Page -> show();
-    	$list = $building -> where($build) -> limit($Page->firstRow.','.$Page->listRows) -> select();
+    	$list = $building -> where($build) -> limit($Page->firstRow.','.$Page->listRows) -> order('name') -> select();
 
         $dnss = $dns -> select();
 

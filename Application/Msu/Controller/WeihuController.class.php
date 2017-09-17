@@ -9,8 +9,8 @@ class WeihuController extends RootController
 		$staff['type'] = '职工楼';
 		$office['type'] = '办公楼';
 		$staff['show'] = $office['show'] = 'yes';
-		$staff_b = $building -> where($staff) -> select();
-		$office_b = $building -> where($office) -> select();
+		$staff_b = $building -> where($staff) -> order('name') -> select();
+		$office_b = $building -> where($office) -> order('name') -> select();
 		$this -> assign('staff_b',$staff_b);
 		$this -> assign('office_b',$office_b);
 		$this -> display();
