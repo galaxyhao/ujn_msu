@@ -2,3 +2,5 @@
 *.conf
 /Application/Runtime
 /Application/Msu/Conf
+.idea/inspectionProfiles/profiles_settings.xml
+.idea
