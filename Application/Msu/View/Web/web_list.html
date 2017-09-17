@@ -87,7 +87,7 @@
                     <li>
                         <a href="__MODULE__/sign"><i class="fa fa-fw fa-tag"></i> 值班签到</a>
                     </li>
-                    <li class="admin">
+                    <li class="admin" style="display:none">
                         <a href="__MODULE__/user"><i class="fa fa-fw fa-users"></i> MSU用户管理</a>
                     </li>
                     <li>
@@ -96,7 +96,7 @@
                     <li>
                         <a href="__MODULE__/web/web_list"><i class="fa fa-fw fa-money"></i> 网站缴费管理</a>
                     </li>
-                    <li class="admin">
+                    <li class="admin" style="display:none">
                         <a href="__MODULE__/admin"><i class="fa fa-fw fa-info"></i> 信息管理</a>
                     </li>
                 </ul>
@@ -219,7 +219,7 @@
                                                         </div><!-- /.modal-content -->
                                                     </div><!-- /.modal -->
                                                 </div>
-                                                <a href="__CONTROLLER__/edit/dnsname/<{$data.dnsname}>" class="btn btn-sm btn-primary admin"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
+                                                <a href="__CONTROLLER__/edit/dnsname/<{$data.dnsname}>" class="btn btn-sm btn-primary admin" style="display:none"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>
                                             </td>
                                         </tr>
                                     </volist>
@@ -238,11 +238,6 @@
     </div>
     <!-- jQuery -->
     <script src="__PUBLIC__/js/jquery.js"></script>
-    <script>
-        if( '<{$gid}>' == '缴费管理员'){
-                $('.admin').hide();
-            }
-    </script>
     <!-- Bootstrap Core JavaScript -->
     <script src="__PUBLIC__/js/bootstrap.min.js"></script>
     <!-- 日期时间选择器 -->
@@ -251,6 +246,9 @@
     <script src="__PUBLIC__/js/myself.js"></script>
     <script>
         $(function(){
+            if('<{$gid}>' == '超级管理员'){
+                $('.admin').removeAttr('style');
+            }
             $('.form-date').fdatepicker({
                 format: 'yyyy-mm-dd',
                 language: 'zh',
