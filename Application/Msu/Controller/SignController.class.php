@@ -9,6 +9,7 @@ class SignController extends RootController
 		$sign['name'] = $where['name'] = $_SESSION['uid'];
 		$sign['time'] = date('Y-m-d H:i:s',time());
 		$ip = $sign['ip'] = $_SERVER['REMOTE_ADDR'];
+		$ip_c = substr($ip,0,10);
 		$sign['note'] = I('post.note');
 		$sign['type'] = $where['type'] = I('post.type');
 		$time = date('Y-m-d');
@@ -18,9 +19,9 @@ class SignController extends RootController
 		$result = $signs -> where($where) -> select();
 		if($_SESSION['gid'] == '维护员') 
 		{
-			if($ip == "202.194.64" || $ip == "202.194.67" || $ip == "202.194.68" || $ip == "127.0.0.1") 
+			if($ip_c == "202.194.64" || $ip_c == "202.194.67" || $ip_c == "202.194.68") 
 			{
-				if($hour>=0&&$hour<=23)
+				if($hour>=0&&$hour<=9)
 				{
 					if(!$result)
 					{
@@ -34,7 +35,7 @@ class SignController extends RootController
 					$this -> ajaxreturn("签到时间不符合要求！","eval");
 			}
 			else
-				$this -> ajaxreturn("ip地址不符合要求！","eval");
+				$this -> ajaxreturn("ip地址为:".$ip."，不符合签到要求！","eval");
 		}
 		else
 			$this -> ajaxreturn("所在用户组无法进行此项操作！","eval");
@@ -46,6 +47,7 @@ class SignController extends RootController
 		$sign['name'] = $where['name'] = $_SESSION['uid'];
 		$sign['time'] = date('Y-m-d H:i:s',time());
 		$ip = $sign['ip'] = $_SERVER['REMOTE_ADDR'];
+		$ip_c = substr($ip,0,10);
 		$sign['note'] = I('post.note');
 		$sign['type'] = $where['type'] = I('post.type');
 		$time = date('Y-m-d');
@@ -55,7 +57,7 @@ class SignController extends RootController
 		$result = $signs -> where($where) -> select();
 		if($_SESSION['gid'] == '维护员') 
 		{
-			if($ip == "202.194.64" || $ip == "202.194.67" || $ip == "202.194.68" || $ip == "127.0.0.1") 
+			if($ip_c == "202.194.64" || $ip_c == "202.194.67" || $ip_c == "202.194.68") 
 			{
 				if($hour>=17&&$hour<=19)
 				{
@@ -71,7 +73,7 @@ class SignController extends RootController
 					$this -> ajaxreturn("签到时间不符合要求！","eval");
 			}
 			else
-				$this -> ajaxreturn("ip地址不符合要求！","eval");
+				$this -> ajaxreturn("ip地址为:".$ip."，不符合签到要求！","eval");
 		}
 		else
 			$this -> ajaxreturn("所在用户组无法进行此项操作！","eval");

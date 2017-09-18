@@ -179,7 +179,7 @@ class WeihuController extends RootController
 
 			array_multisort($num,SORT_DESC,SORT_REGULAR,$tops);
 
-			return $tops;
+			return array_slice($tops,0,6);
 		}
 
 		$record_count = record_count();
