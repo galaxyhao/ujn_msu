@@ -286,7 +286,7 @@ class WeihuController extends RootController
 		
 		if(!$list)
 		{
-			echo "该用户的维护记录为空！";
+			$this->error("该用户的维护记录为空！");
 		}
 		else{
 			$this -> assign('list',$list);
