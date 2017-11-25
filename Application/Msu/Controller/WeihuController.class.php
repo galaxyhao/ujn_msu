@@ -339,7 +339,7 @@ class WeihuController extends RootController
 
 		if(!($_SESSION['gid'] == '超级管理员' || $_SESSION['gid'] == '缴费管理员' || $_SESSION['uid'] == "$uid")) 
 		{
-			$this -> error("您无权进行该项操作！");
+			$this -> ajaxreturn("您无权进行该项操作！");
 		}
 	}
 	//修改维护记录
@@ -386,7 +386,6 @@ class WeihuController extends RootController
 	{
 		$record = D('Record');
 		
-
 		$rid = I('get.rid');
 		$result1 = $record -> where("id = '$rid'") -> setField('show','no');
 
@@ -394,6 +393,37 @@ class WeihuController extends RootController
 			$this -> ajaxreturn('success','eval');
 		else
 			$this -> ajaxreturn('删除失败！','eval');
+	}
+	public function _before_weihu_client_edit(){
+		$record = M("weihu_records");
+		$id = I("post.rid");
+
+		$uid = $record -> where("id = $id") -> getField('adder');
+
+		if(!($_SESSION['gid'] == '超级管理员' || $_SESSION['gid'] == '缴费管理员' || $_SESSION['uid'] == "$uid")) 
+		{
+			$this -> ajaxreturn("您无权进行该项操作！");
+		}
+	}
+	//修改登记的用户信息
+	public function weihu_client_edit(){
+		$client = M('weihu_client');
+		$record = D('Record');
+
+		$rid = I('post.rid');
+		$client_info['name'] = I('post.client');
+		$client_info['numbers'] = I('post.numbers');
+
+		$client_id = $record -> where("id = '$rid'") -> getField('client_id');
+		if(empty($client_id)){
+			$this->ajaxReturn('用户信息不正确','eval');
+		}
+		$result = $client->where("cid = '$client_id'")->save($client_info);
+		if($result){
+			$this->ajaxReturn('success','eval');
+		}else{
+			$this->ajaxReturn('修改失败，请重试','eval');
+		}
 	}
 }
 ?>

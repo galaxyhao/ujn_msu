@@ -149,6 +149,43 @@
                 </div>
             </div>
         </div>
+        <button class="btn btn-primary btn-sm edit" disabled="disabled" data-toggle="modal" data-target="#edit<{$vo.id}>" data-dismiss="modal" data-adder="<{$vo.adder}>">修改<span class="glyphicon glyphicon-pencil"></span></button>
+        <div class="modal fade" id="edit<{$vo.id}>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                         <span aria-hidden="true">&times;</span>
+                         <span class="sr-only">Close</span>
+                     </button>
+                     <h4 class="modal-title" id="ModalLabel"><{$vo.building}><{$vo.unit}><{$vo.room}></h4>
+                 </div>
+
+                 <!-- Modal Body -->
+                 <div class="modal-body">
+                    <form class="form-horizontal" role="form" action="__CONTROLLER__/note_save" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户姓名</label>
+                            <div class="col-sm-10">
+                                <input name="client" class="form-control" value="<{$vo.client}>">    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户电话</label>
+                            <div class="col-sm-10">
+                                <input name="numbers" class="form-control" value="<{$vo.numbers}>">    
+                            </div>
+                        </div>
+                      <input type="hidden" name="rid" value="<{$vo.id}>">
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary xiugai" data-dismiss="modal">提交</button>
+                      </div>
+                    </form>
+                 </div>
+                </div>
+            </div>
+        </div>
         <button class="btn btn-danger btn-sm delete " disabled="disabled" data-toggle="modal" data-target="#delete<{$vo.id}>" data-dismiss="modal">删除<span class="glyphicon glyphicon-trash"></span></button>
         <!--Modal-->
         <div class="modal fade" id="delete<{$vo.id}>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -379,6 +416,14 @@
     <script src="__PUBLIC__/js/myself.js"></script>
 
     <script>
+        if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员')
+        $(".edit").removeAttr("disabled");
+
+        $(".edit").each(function(){
+            if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员' || '<{$Think.session.name}>' == $(this).data("adder"))
+                $(this).removeAttr("disabled");
+        });
+
         $(function(){
             $('.tianxie').click(function(){
              var select = $(this).parents('form');
@@ -395,15 +440,14 @@
              
              submit(select,"__CONTROLLER__/weihu_delete",'GET','删除成功！');
          });
+            $('.xiugai').click(function(){
+            var select = $(this).parents('form');
+            
+            submit(select,"__CONTROLLER__/weihu_client_edit",'POST','修改成功！');
+         });
         });
     </script>
-    <script>
-        $(function(){
-            if('<{$Think.session.gid}>' == '超级管理员' || '<{$Think.session.gid}>' == '缴费管理员')
-                $(".delete").removeAttr("disabled");
-        });
-    </script>
-
+    
 </body>
 
 </html>
